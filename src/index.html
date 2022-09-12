@@ -12,18 +12,283 @@
     />
     <link rel="shortcut icon" href="./4geeks.ico" />
   </head>
+
   <body>
-    <div class="container-fluid text-center">
-      <h1 class="mt-5">Hello Rigo!</h1>
-      <img src="./rigo-baby.jpg" />
-      <p class="alert alert-warning mt-4">
-        If this text is <b>not</b> centered and <b>yellow</b>, you probably have
-        an error
-      </p>
-      <div class="fixed-bottom p-4">
-        Made with ❤️ by
-        <a href="https://www.4geeksacademy.com">4Geeks Academy</a>
-      </div>
+    <div id="padre" class="card  row">
+      <div id="arriba" class="col-3 text-center mt-2 float-left "></div>
+      <div
+        id="medio"
+        class="col-6 text-center my-auto  align-self-center "
+      ></div>
+      <div
+        id="abajo"
+        class="col-3 text-center mb-2  align-self-end transformed "
+      ></div>
     </div>
+
+    <button onclick="random()">Pulse aqui para la magia</button>
+    <button onclick="parar()">Parar</button>
+    <button onclick="reanudar()">Continuar</button>
+    <button onclick="tabla()">historial</button>
+    <button onclick="limpiar()">Barajar</button>
+
+    <div>
+      <input type="text" id="width" placeholder="inserte aqui ancho" />
+      <input type="text" id="height" placeholder="inserte aqui altura" />
+      <button onclick="ajustar()">Pulse aqui para el tamaño</button>
+      <br /><br />
+      <button id="crear" onclick="crearjuego1()">
+        Pulse aqui para la magia
+      </button>
+    </div>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+    <script>
+      var intervalo = setInterval("random()", 5000);
+      var cartas = [];
+      var jugadas = [];
+      var total = 0;
+      var total2 = 0;
+
+      function limpiar() {
+        cartas = [];
+      }
+
+      function tabla() {
+        if (document.getElementById("historial")) {
+          let tab = document.getElementById("historial");
+          return document.body.removeChild(tab);
+        }
+        let contador = 1;
+        let tabla = document.createElement("table");
+        tabla.className = " table-bordered table-striped";
+
+        tabla.id = "historial";
+        tabla.style.background = "white";
+        tabla.style.border = "1px solid";
+        tabla.style.width = "200px";
+        let tr = document.createElement("tr");
+        let th1 = document.createElement("th");
+        th1.textContent = "Nº";
+        tr.appendChild(th1);
+        let th2 = document.createElement("th");
+        th2.textContent = "Carta jugada";
+        tr.appendChild(th2);
+        tabla.appendChild(tr);
+        for (let carta of cartas) {
+          let tr = document.createElement("tr");
+          let td1 = document.createElement("td");
+          td1.textContent = contador;
+          tr.appendChild(td1);
+          let td2 = document.createElement("td");
+          td2.textContent = carta;
+          tr.appendChild(td2);
+          tabla.appendChild(tr);
+          contador++;
+        }
+        document.body.appendChild(tabla);
+      }
+
+      function parar() {
+        clearInterval(intervalo);
+      }
+
+      function reanudar() {
+        intervalo = setInterval("random()", 5000);
+      }
+
+      function mensaje() {
+        alert("hola");
+      }
+
+      function random() {
+        var simbolo = ["corazon", "rombo", "picas", "treboles"];
+        var numero1 = Math.floor(Math.random() * simbolo.length);
+        var numero2 = Math.floor(Math.random() * 12 + 1);
+        for (let carta of cartas) {
+          if (carta == numero2 + " " + simbolo[numero1]) {
+            return random();
+          }
+        }
+        var a = (document.getElementById("padre").childNodes[1].id =
+          simbolo[numero1]);
+        var c = (document.getElementById(
+          "padre"
+        ).childNodes[3].innerHTML = numero2);
+        var b = (document.getElementById("padre").childNodes[5].id =
+          simbolo[numero1]);
+        cartas.push(numero2 + " " + simbolo[numero1]);
+        console.log(cartas);
+      }
+
+      function jugarcarta1() {
+        var juego = document.getElementById("juego1");
+        var simbolo = ["corazon", "rombo", "picas", "treboles"];
+        var simbolo2 = ["❤", "♦", "♠", "♧"];
+        var numero1 = Math.floor(Math.random() * simbolo.length);
+        var numero2 = Math.floor(Math.random() * 12 + 1);
+        console.log(jugadas);
+        if (jugadas.length != 0) {
+          for (var i = 0; i < jugadas.length; i++) {
+            if (jugadas[i] == numero2 + simbolo[numero1]) {
+              return jugarcarta1();
+            }
+          }
+        }
+        jugadas.push(numero2 + simbolo[numero1]);
+        total += numero2;
+
+        var div = document.createElement("div");
+        div.className = "card";
+        var col1 = document.createElement("div");
+        col1.innerHTML = numero2 + `<br>${simbolo2[numero1]}`;
+        col1.className = "col-3 text-center mt-2 float-left";
+        console.log(col1);
+        div.appendChild(col1);
+        var col2 = document.createElement("div");
+        col2.className = `col-6 fs-2 text-center my-auto  align-self-center `;
+        col2.textContent = numero2;
+        div.appendChild(col2);
+        var col3 = document.createElement("div");
+        col3.innerHTML = numero2 + `<br>${simbolo2[numero1]}`;
+        col3.className = "col-3 text-center mb-2 align-self-end transformed ";
+        div.appendChild(col3);
+        juego.appendChild(div);
+        if (total > 21) {
+          var body = document.body;
+          var prueba2 = document.getElementById("botones1");
+          body.removeChild(prueba2);
+          return alert("Te pasaste de 21, perdiste");
+        }
+      }
+
+      function plantar1() {
+        var juego = document.getElementById("juego2");
+        var simbolo = ["corazon", "rombo", "picas", "treboles"];
+        var numero1 = Math.floor(Math.random() * simbolo.length);
+        var numero2 = Math.floor(Math.random() * 12 + 1);
+        console.log(jugadas);
+        if (jugadas.length != 0) {
+          for (var i = 0; i < jugadas.length; i++) {
+            if (jugadas[i] == numero2 + simbolo[numero1]) {
+              return plantar1();
+            }
+          }
+        }
+        jugadas.push(numero2 + simbolo[numero1]);
+        total2 += numero2;
+        var div = document.createElement("div");
+        div.className = "card";
+        var col1 = document.createElement("div");
+        col1.className = "col-3 text-center mt-2 float-left";
+        col1.id = simbolo[numero1];
+        div.appendChild(col1);
+        var col2 = document.createElement("div");
+        col2.className = "col-6 fs-2 text-center my-auto  align-self-center ";
+        col2.textContent = numero2;
+        div.appendChild(col2);
+        var col3 = document.createElement("div");
+        col3.className = "col-3 text-center mb-2 align-self-end transformed ";
+        col3.id = simbolo[numero1];
+        div.appendChild(col3);
+        juego.appendChild(div);
+        var body = document.body;
+        var prueba2 = document.getElementById("botones1");
+        if (total2 > 21) {
+          body.removeChild(prueba2);
+          return alert("Felicidades me he pasado, tu ganas");
+        } else if (total2 > total) {
+          body.removeChild(prueba2);
+          return alert("Llegue mas cerca de 21, tu pierdes");
+        } else if (total2 < 14 && total2 <= total) {
+          return plantar1();
+        } else if (total2 == total) {
+          body.removeChild(prueba2);
+          return alert("esto es empate");
+        } else {
+          return plantar1();
+        }
+      }
+
+      function ajustar() {
+        var w = document.getElementById("width").value;
+        var h = document.getElementById("height").value;
+        if (isNaN(w) || isNaN(h)) {
+          alert("recuerda usar numeros");
+          return;
+        } else if (Math.sign(w) == -1 || Math.sign(h) == -1) {
+          alert("recuerda usar numeros positivos");
+          return;
+        }
+        let padre = document.getElementById("padre");
+        document.getElementById("padre").style.setProperty("width", w + "px");
+        document.getElementById("padre").style.setProperty("height", h + "px");
+        console.log(padre.childNodes);
+        let arriba = padre.childNodes[1];
+        let medio = document.getElementById("medio");
+        let abajo = padre.childNodes[5];
+        let array = [arriba, medio, abajo];
+        console.log(array);
+        for (let i = 0; i < array.length; i++) {
+          if (w == 0 || w == null) {
+            let w2 = 17;
+            console.log(array[i]);
+            array[i].style.setProperty("font-size", w2 + "px");
+            console.log(w, h);
+          } else {
+            let w2 = w / 5;
+            console.log(array[i]);
+            array[i].style.setProperty("font-size", w2 + "px");
+            console.log(w, h);
+          }
+        }
+      }
+
+      function crearjuego1() {
+        jugadas = [];
+        total = 0;
+        total2 = 0;
+        var prueba = document.getElementById("juego1");
+        var prueba2 = document.getElementById("botones1");
+        var prueba3 = document.getElementById("juego2");
+
+        console.log(jugadas);
+
+        var body = document.body;
+        if (prueba != null) {
+          body.removeChild(prueba);
+        }
+        if (prueba2 != null) {
+          body.removeChild(prueba2);
+        }
+        if (prueba3 != null) {
+          body.removeChild(prueba3);
+        }
+        document.getElementById("crear").textContent = "reiniciar juego";
+
+        var div = document.createElement("div");
+        div.id = "juego1";
+        div.className = "row container";
+        body.appendChild(div);
+        var div = document.createElement("div");
+        div.id = "juego2";
+        div.className = "row container";
+        body.appendChild(div);
+        var div = document.createElement("div");
+        div.id = "botones1";
+        var button = document.createElement("button");
+        button.setAttribute("onclick", "jugarcarta1()");
+        button.textContent = "¿quieres robar carta?";
+        div.appendChild(button);
+        var button = document.createElement("button");
+        button.setAttribute("onclick", "plantar1()");
+        button.textContent = "¿quieres plantarte?";
+        div.appendChild(button);
+        body.appendChild(div);
+      }
+
+      window.onload = random();
+      window.onload = ajustar();
+    </script>
   </body>
 </html>

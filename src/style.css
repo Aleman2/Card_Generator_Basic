@@ -1,1 +1,45 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  background-color: green;
+}
+
+[data-suit="♥"],
+[data-suit="♦"] {
+  color: red;
+}
+
+.card {
+  width: 125px;
+  height: 200px;
+  background: white;
+  border-radius: 10px;
+  /*   display:inline-block; */
+  margin: 3px;
+  font-size: 17px;
+}
+
+#corazon::before {
+  content: "❤";
+}
+
+#rombo::before {
+  content: "♦";
+}
+
+#picas::before {
+  content: "♠";
+}
+
+#treboles::before {
+  content: "♧";
+}
+
+.transformed {
+  transform: rotate(180deg);
+}
+
+button {
+  border: 1px solid black;
+  border-radius: 5px;
+}
